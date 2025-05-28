@@ -2,9 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import swaggerUI from 'swagger-ui-express'
 import swaggerJSdoc from 'swagger-jsdoc'
-
 import petRoutes from './routes/pets.routes.js'
+import { PrismaClient } from './generated/prisma/index.js'
 
+const prisma = new PrismaClient();
 const app = express()
 const port = 3000
 
@@ -35,7 +36,17 @@ app.use(
 )
 
 /* Routes */
-app.use('/pets', petRoutes)
+app.use('/pets', petRoutes(prisma))
+
+app.get('/test-prisma', async (req, res) => {
+    try {
+      const pets = await prisma.pet.findMany();
+      res.json(pets);
+    } catch (err) {
+      console.error('Test Prisma Error:', err);
+      res.status(500).send('Prisma test failed');
+    }
+  });
 
 /* Server setup */
 if (process.env.NODE_ENV !== 'test') {
