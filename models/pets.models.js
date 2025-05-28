@@ -1,60 +1,56 @@
-import db from '../db/db.js'
+import { PrismaClient } from '../generated/prisma/index.js'
 
+const prisma = new PrismaClient() 
 
-
-export const getItem = id => {
+export const getItem = async (id) => {
     try {
-        const pet = db?.pets?.filter(pet => pet?.id === id)[0]
-        return pet
+      const pet = await prisma.pet.findUnique({
+        where: { id: Number(id) }
+      });
+      return pet;
     } catch (err) {
-        console.log('Error', err)
+      console.error('Error', err);
     }
-}
+  }
 
-export const listItems = () => {
+  export const listItems = async () => {
     try {
-        return db?.pets
+      return await prisma.pet.findMany();
     } catch (err) {
-        console.log('Error', err)
+      console.error('Error', err);
     }
-}
+  }
 
-export const editItem = (id, data) => {
+  export const editItem = async (id, data) => {
     try {
-        const index = db.pets.findIndex(pet => pet.id === id)
-
-        if (index === -1) throw new Error('Pet not found')
-        else {
-            db.pets[index] = data
-            return db.pets[index]
-        }        
+      const updatedPet = await prisma.pet.update({
+        where: { id: Number(id) },
+        data
+      });
+      return updatedPet;
     } catch (err) {
-        console.log('Error', err)
+      console.error('Error', err);
     }
-}
+  }
+  
 
-export const addItem = data => {
-    try {  
-        const newPet = { id: db.pets.length + 1, ...data }
-        db.pets.push(newPet)
-        return newPet
-
-    } catch (err) {
-        console.log('Error', err)
-    }
-}
-
-export const deleteItem = id => {
+  export const addItem = async (data) => {
     try {
-        // delete item from db
-        const index = db.pets.findIndex(pet => pet.id === id)
-
-        if (index === -1) throw new Error('Pet not found')
-        else {
-            db.pets.splice(index, 1)
-            return db.pets
-        }
-    } catch (error) {
-
+      const newPet = await prisma.pet.create({ data });
+      return newPet;
+    } catch (err) {
+      console.error('Error', err);
     }
-}
+  }
+  
+  export const deleteItem = async (id) => {
+    try {
+      await prisma.pet.delete({
+        where: { id: Number(id) }
+      });
+      return { message: 'Pet deleted' };
+    } catch (err) {
+      console.error('Error', err);
+    }
+  }
+  

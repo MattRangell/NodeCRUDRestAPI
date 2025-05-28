@@ -43,7 +43,7 @@ git clone https://github.com/yourusername/petpal-api.git
 cd petpal-api
 
 # 3. Install dependencies
-npm install
+npm install --production
 
 # 4. Create a .env file with your environment variables
 cp .env.example .env
@@ -125,6 +125,43 @@ This is a learning project, but feedback and pull requests are welcome! To contr
 Please adhere to the existing code style and include tests where appropriate.
 
 ---
+___
+## Development Dependencies (`devDependencies`)
+
+The following development dependencies are essential for building, testing, and maintaining this project. These tools assist with **transpilation**, **testing**, and **automated development workflows**, but are **not required in production**.
+
+### **Babel (Transpilation)**
+Babel is used to convert modern JavaScript into versions that are compatible across different environments:
+- **`@babel/core`** (`^7.21.4`) – The core Babel compiler.
+- **`@babel/preset-env`** (`^7.21.4`) – A preset that automatically determines the necessary Babel plugins and polyfills for your project.
+
+### **Testing Frameworks**
+Jest and Supertest provide a structured environment for unit and integration tests:
+
+- **`jest`** (`^29.5.0`) – A widely used JavaScript testing framework.
+- **`babel-jest`** (`^29.5.0`) – Enables Jest to transform code using Babel.
+- **`jest-babel`** (`^1.0.1`) – Assists in running Jest tests with Babel transformations.
+- **`supertest`** (`^6.3.3`) – Facilitates API testing by making HTTP requests and validating responses.
+
+### **Development Automation**
+For a smoother development experience, tools are included to enhance workflow automation:
+
+- **`nodemon`** (`^2.0.22`) – Automatically restarts the application when file changes are detected, eliminating the need to manually restart the server.
+
+## **Installation**
+To install all development dependencies, run:
+
+```bash
+npm install --save-dev @babel/core @babel/preset-env babel-jest jest jest-babel nodemon supertest
+```
+To ensure only **production** dependencies are installed, use:
+
+```bash
+npm install --production
+```
+---
+These dependencies streamline development but are **not required** for running the final version of the project. 
+___
 
 ## 📄 License
 

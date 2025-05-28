@@ -1,6 +1,6 @@
 import { getItem, listItems, editItem, addItem, deleteItem } from '../models/pets.models.js'
 
-export const getPet = (req, res) => {
+export const getPet = async (req, res) => {
     try {
         const resp = getItem(parseInt(req.params.id))
         res.status(200).json(resp)
@@ -10,9 +10,9 @@ export const getPet = (req, res) => {
     }
 }
 
-export const listPets = (req, res) => {
+export const listPets = async (req, res) => {
     try {
-        const resp = listItems()
+        const resp = await listItems()
         res.status(200).json(resp)
 
     } catch (err) {
@@ -20,9 +20,9 @@ export const listPets = (req, res) => {
     }
 }
 
-export const editPet = (req, res) => {
+export const editPet = async (req, res) => {
     try {
-        const resp = editItem(parseInt(req.params.id), req.body)
+        const resp = await editItem(parseInt(req.params.id), req.body)
         res.status(200).json(resp)
 
     } catch (err) {
@@ -30,9 +30,9 @@ export const editPet = (req, res) => {
     }
 }
 
-export const addPet = (req, res) => {
+export const addPet = async (req, res) => {
     try {
-        const resp = addItem(req.body)
+        const resp = await addItem(req.body)
         res.status(200).json(resp)
 
     } catch (err) {
@@ -40,9 +40,9 @@ export const addPet = (req, res) => {
     }
 }
 
-export const deletePet = (req, res) => {
+export const deletePet = async (req, res) => {
     try {
-        const resp = deleteItem(parseInt(req.params.id))
+        const resp = await deleteItem(parseInt(req.params.id))
         res.status(200).json(resp)
 
     } catch (err) {
